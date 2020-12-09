@@ -5,7 +5,9 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import zendesk.commonui.UiConfig;
+//import zendesk.commonui.UiConfig;
+import zendesk.belvedere.BelvedereUi;
+import zendesk.configurations.Configuration;
 import zendesk.core.Zendesk;
 import zendesk.core.Identity;
 import zendesk.core.JwtIdentity;
@@ -21,6 +23,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class RNZendeskBridge extends ReactContextBaseJavaModule {
@@ -69,13 +72,13 @@ public class RNZendeskBridge extends ReactContextBaseJavaModule {
     @ReactMethod
     public void showHelpCenter(ReadableMap options) {
 //        Boolean hideContact = options.getBoolean("hideContactUs") || false;
-        UiConfig hcConfig = HelpCenterActivity.builder()
+        BelvedereUi.UiConfig hcConfig = (BelvedereUi.UiConfig) HelpCenterActivity.builder()
                 .withContactUsButtonVisible(!(options.hasKey("hideContactSupport") && options.getBoolean("hideContactSupport")))
                 .config();
 
         Intent intent = HelpCenterActivity.builder()
                 .withContactUsButtonVisible(true)
-                .intent(getReactApplicationContext(), hcConfig);
+                .intent(getReactApplicationContext(), (List<Configuration>) hcConfig);
 
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getReactApplicationContext().startActivity(intent);
